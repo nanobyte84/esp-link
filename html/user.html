@@ -1,0 +1,58 @@
+  <div id="main">
+    <div class="header">
+        <h1>User</h1>
+    </div>
+
+    <div class="content">
+      <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2">
+          <div class="card">
+            <h1>
+              Test1
+              <div id="User-spinner" class="spinner spinner-small"></div>
+            </h1>
+            <form action="#" id="User-form" class="pure-form" hidden>
+              <legend>User settings</legend>
+              <div class="pure-form-stacked">
+                <label>Test Line 1</label>
+                <input type="text" name="syslog_host" />
+                <div class="popup">Tooltiptext of Test Line 1</div>
+              </div>
+              <div class="pure-form-stacked">
+                <label>Test Line 2</label>
+                <input type="text" name="syslog_minheap" />
+                <label>Dropdown</label>
+                <select name="user_dd_filter" href="#">
+                  <option value="0">ITEM0</option>
+                  <option value="1">ITEM1</option>
+                  <option value="2">ITEM2</option>
+                  <option value="3">ITEM3</option>
+                </select>
+              </div>
+              <div class="form-horizontal">
+                <label>Checkbox 1</label>
+                <input type="checkbox" name="user_cb_showtick" />
+              </div>
+              <div class="form-horizontal">
+                <label>Checkbox 2</label>
+                <input type="checkbox" name="user_cb_showdate" />
+                <div class="popup">tooltiptext of checkbox 2</div>
+              </div>
+              <button id="User-button" type="submit" class="pure-button button-primary">
+                Update Button!
+              </button>
+            </form>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="user.js"></script>
+<script type="text/javascript">
+onLoad(function() {
+  fetchServices();
+  bnd($("#User-form"), "submit", changeServices);
+});
+</script>
+</body></html>

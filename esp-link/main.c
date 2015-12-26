@@ -18,6 +18,7 @@
 #include "cgitcp.h"
 #include "cgimqtt.h"
 #include "cgiflash.h"
+#include "cgiuser.h"
 #include "cgioptiboot.h"
 #include "auth.h"
 #include "espfs.h"
@@ -77,6 +78,7 @@ HttpdBuiltInUrl builtInUrls[] = {
   { "/services/info", cgiServicesInfo, NULL },
   { "/services/update", cgiServicesSet, NULL },
   { "/pins", cgiPins, NULL },
+  { "/user", cgiUser, NULL },
 #ifdef MQTT
   { "/mqtt", cgiMqtt, NULL },
 #endif  
