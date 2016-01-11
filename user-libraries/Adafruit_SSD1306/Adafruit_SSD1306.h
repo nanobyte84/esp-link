@@ -20,7 +20,9 @@ All text above, and the splash screen must be included in any redistribution
 #define __ESP8266_EX__
 typedef bool boolean;
 
+extern "C" {
 #include "../../driver/i2c/i2c.h"
+}
 
 #define WIRE_WRITE i2c_writeByte
 //#define WIRE_WRITE Wire.write

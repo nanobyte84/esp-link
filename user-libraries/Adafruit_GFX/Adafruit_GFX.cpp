@@ -43,6 +43,13 @@ POSSIBILITY OF SUCH DAMAGE.
  #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #endif
 
+
+extern "C" void __cxa_pure_virtual()
+{
+  while (1);
+}
+
+
 Adafruit_GFX::Adafruit_GFX(int16_t w, int16_t h):
   WIDTH(w), HEIGHT(h)
 {
