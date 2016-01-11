@@ -16,13 +16,15 @@ BSD license, check license.txt for more information
 All text above, and the splash screen must be included in any redistribution
 *********************************************************************/
 
-#if ARDUINO >= 100
- #include "Arduino.h"
- #define WIRE_WRITE Wire.write
-#else
- #include "WProgram.h"
-  #define WIRE_WRITE Wire.send
-#endif
+#include <esp8266.h>
+#define __ESP8266_EX__
+typedef bool boolean;
+
+#include "../../driver/i2c/i2c.h"
+
+#define WIRE_WRITE i2c_writeByte
+//#define WIRE_WRITE Wire.write
+//#define WIRE_WRITE Wire.send
 
 #ifdef __SAM3X8E__
  typedef volatile RwReg PortReg;
@@ -32,8 +34,7 @@ All text above, and the splash screen must be included in any redistribution
   typedef uint8_t PortMask;
 #endif
 
-#include "../../SmingCore/SPI.h"
-#include <Adafruit_GFX/Adafruit_GFX.h>
+#include "../Adafruit_GFX/Adafruit_GFX.h"
 
 #define BLACK 0
 #define WHITE 1

@@ -49,3 +49,7 @@ void i2c_send_ack(uint8 state);
 uint8 i2c_check_ack(void);
 uint8 i2c_readByte(void);
 void i2c_writeByte(uint8 data);
+
+
+#define I2C_READ 1
+#define I2C_WRITE 0

@@ -24,7 +24,6 @@ All text above, and the splash screen below must be included in any redistributi
 
 #include <stdlib.h>
 
-#include "../../SmingCore/Wire.h"
 #include "../Adafruit_GFX/Adafruit_GFX.h"
 
 // the memory buffer for the LCD
@@ -161,7 +160,7 @@ Adafruit_GFX(SSD1306_LCDWIDTH, SSD1306_LCDHEIGHT) {
 void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
   _vccstate = vccstate;
   _i2caddr = i2caddr;
-
+#if 0
   // set pin directions
   if (sid != -1){
     pinMode(dc, OUTPUT);
@@ -192,7 +191,10 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
     }
   else
   {
+#endif  
     // I2C Init
+    i2c_init();
+#if 0
     Wire.begin();
 #ifdef __SAM3X8E__
     // Force 400 KHz I2C, rawr! (Uses pins 20, 21 for SDA, SCL)
@@ -215,7 +217,7 @@ void Adafruit_SSD1306::begin(uint8_t vccstate, uint8_t i2caddr, bool reset) {
     digitalWrite(rst, HIGH);
     // turn on VCC (9V?)
   }
-
+#endif
    #if defined SSD1306_128_32
     // Init sequence for 128x32 OLED module
     ssd1306_command(SSD1306_DISPLAYOFF);                    // 0xAE
@@ -337,6 +339,7 @@ void Adafruit_SSD1306::invertDisplay(uint8_t i) {
 }
 
 void Adafruit_SSD1306::ssd1306_command(uint8_t c) { 
+#if 0
   if (sid != -1)
   {
     // SPI
@@ -351,13 +354,23 @@ void Adafruit_SSD1306::ssd1306_command(uint8_t c) {
     *csport |= cspinmask;
   }
   else
+#endif
   {
     // I2C
     uint8_t control = 0x00;   // Co = 0, D/C = 0
-    Wire.beginTransmission(_i2caddr);
-    WIRE_WRITE(control);
-    WIRE_WRITE(c);
-    Wire.endTransmission();
+//    Wire.beginTransmission(_i2caddr);
+//    WIRE_WRITE(control);
+//    WIRE_WRITE(c);
+//    Wire.endTransmission();
+	i2c_start();
+	i2c_writeByte( _i2caddr<<1 | I2C_WRITE );
+	i2c_send_ack(1);
+	i2c_writeByte( control );
+	i2c_send_ack(1);
+	i2c_writeByte( c );
+	i2c_send_ack(1);
+	i2c_stop();
+
   }
 }
 
@@ -451,6 +464,7 @@ void Adafruit_SSD1306::dim(boolean dim) {
 }
 
 void Adafruit_SSD1306::ssd1306_data(uint8_t c) {
+#if 0
   if (sid != -1)
   {
     // SPI
@@ -465,13 +479,22 @@ void Adafruit_SSD1306::ssd1306_data(uint8_t c) {
     *csport |= cspinmask;
   }
   else
+#endif
   {
     // I2C
     uint8_t control = 0x40;   // Co = 0, D/C = 1
-    Wire.beginTransmission(_i2caddr);
-    WIRE_WRITE(control);
-    WIRE_WRITE(c);
-    Wire.endTransmission();
+//    Wire.beginTransmission(_i2caddr);
+//    WIRE_WRITE(control);
+//    WIRE_WRITE(c);
+//    Wire.endTransmission();
+	i2c_start();
+	i2c_writeByte( _i2caddr<<1 | I2C_WRITE );
+	i2c_send_ack(1);
+	i2c_writeByte( control );
+	i2c_send_ack(1);
+	i2c_writeByte( c );
+	i2c_send_ack(1);
+	i2c_stop();
   }
 }
 
@@ -541,15 +564,34 @@ void Adafruit_SSD1306::display(void) {
     // I2C
     for (uint16_t i=0; i<(SSD1306_LCDWIDTH*SSD1306_LCDHEIGHT/8); i++) {
       // send a bunch of data in one xmission
-      Wire.beginTransmission(_i2caddr);
-      WIRE_WRITE(0x40);
-      for (uint8_t x=0; x<16; x++) {
-  WIRE_WRITE(buffer[i]);
-  i++;
-      }
-      i--;
-      Wire.endTransmission();
-    }
+//      Wire.beginTransmission(_i2caddr);
+//      WIRE_WRITE(0x40);
+//      for (uint8_t x=0; x<16; x++) {
+//  WIRE_WRITE(buffer[i]);
+//  i++;
+//      }
+//      i--;
+//      Wire.endTransmission();
+
+		i2c_start();
+		i2c_writeByte( _i2caddr<<1 | I2C_WRITE );
+		i2c_send_ack(1);
+		i2c_writeByte( 0x40 );
+		i2c_send_ack(1);
+
+		for (uint8_t x=0; x<16; x++) {
+			i2c_writeByte(buffer[i]);
+			i2c_send_ack(1);
+			i++;
+		}
+		i--;
+		i2c_stop();
+  }
+
+
+
+
+
 #if !defined(__SAM3X8E__) && !defined(__ESP8266_EX__)
     TWBR = twbrbackup;
 #endif
@@ -564,7 +606,7 @@ void Adafruit_SSD1306::clearDisplay(void) {
 
 
 inline void Adafruit_SSD1306::fastSPIwrite(uint8_t d) {
-  
+#if 0  
   if(hwSPI) {
     (void)SPI.transfer(d);
   } else {
@@ -576,6 +618,7 @@ inline void Adafruit_SSD1306::fastSPIwrite(uint8_t d) {
     }
   }
   //*csport |= cspinmask;
+#endif
 }
 
 void Adafruit_SSD1306::drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color) {

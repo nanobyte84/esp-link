@@ -13,6 +13,10 @@
 #ifndef DHT_H
 #define DHT_H
 
+#include <esp8266.h>
+#define NAN 0
+
+#if 0
 #if ARDUINO >= 100
  #include "Arduino.h"
 
@@ -23,6 +27,7 @@
 
  #define PULLUP_PIN(x) pinMode(x, INPUT); \
 					   digitalWrite(x, HIGH)
+#endif
 #endif
 
 #define DHT_CELSIUS 0

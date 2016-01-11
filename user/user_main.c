@@ -1,15 +1,13 @@
+#include <esp8266.h>
+#include <config.h>
 #include "ets_sys.h"
-#include "driver/uart.h"
-#include "i2c/i2c.h"
+#include "driver/i2c/i2c.h"
 #include "osapi.h"
 #include "os_type.h"
 #include "config.h"
 #include "user_interface.h"
 
 #include "user_main.h"
-#include "user_display.h"
-#include "user_buttons.h"
-#include "user_network.h"
 
 #define user_procTaskPrio        1
 #define user_procTaskQueueLen    1
@@ -48,14 +46,28 @@ void app_init(void)
     
     os_printf("USER start\n");
 
-	system_os_task(user_procTask, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
+//	system_os_task(user_procTask, user_procTaskPrio,user_procTaskQueue, user_procTaskQueueLen);
 }
 
+
+#define I2C_SLAVE 8
 
 void user_function1(void)
 {
+	int i;
 	 os_printf("USER function1\n");
-}
+ 	 i2c_init();
+	 i2c_start();
+	 i2c_writeByte( (I2C_SLAVE << 1) | I2C_READ);
+	 i2c_send_ack(1);
+	 for(i = 0; i<6; i++)
+	 {
+		 i2c_readByte();
+//		 i2c_check_ack();
+		 i2c_send_ack(1);
+	 }
+	 i2c_stop();
+ }
 
 void user_function2(int8_t user1,int8_t user2)
 {
