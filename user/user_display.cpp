@@ -18,6 +18,7 @@
  * CS       (CS)          GPIO2
  */
 // For spi oled module
+
 Adafruit_SSD1306 display(0, 16, 2);
 
 //* For I2C mode:
@@ -27,22 +28,22 @@ Adafruit_SSD1306 display(0, 16, 2);
 
 void display_demo2(void)
 {
-	//Serialprintln("Display: some text");
-	display.clearDisplay();
-	// text display tests
-	display.setTextSize(1);
-	display.setTextColor(WHITE);
-	display.setCursor(0,0);
+//	//Serialprintln("Display: some text");
+//	display.clearDisplay();
+//	// text display tests
+//	display.setTextSize(1);
+//	display.setTextColor(WHITE);
+//	display.setCursor(0,0);
 //	display.println("Sming Framework");
-	display.setTextColor(BLACK, WHITE); // 'inverted' text
-	display.setCursor(104, 7);
+//	display.setTextColor(BLACK, WHITE); // 'inverted' text
+//	display.setCursor(104, 7);
 //	display.println("v1.0");
 	//----
-	display.setTextColor(WHITE);
+//	display.setTextColor(WHITE);
 //	display.println("Let's do smart things");
-	display.setTextSize(3);
+//	display.setTextSize(3);
 //	display.print("IoT");
-	display.display();
+//	display.display();
 //	DemoTimer.stop();      // Finish demo
 }
 
@@ -50,16 +51,16 @@ void display_demo1(void)
 {
         //Serialprintln("Display: circle");
 	// Clear the buffer.
-	display.clearDisplay();
+//	display.clearDisplay();
 	// draw a circle, 10 pixel radius
-	display.fillCircle(display.width()/2, display.height()/2, 10, WHITE);
-	display.display();
+//	display.fillCircle(display.width()/2, display.height()/2, 10, WHITE);
+//	display.display();
 }
 
 void display_init(void)
 {
 
 	//Serialprintln("Display: start");
-	display.begin(SSD1306_SWITCHCAPVCC);
-	display.display();
+//	display.begin(SSD1306_SWITCHCAPVCC);
+//	display.display();
 }	

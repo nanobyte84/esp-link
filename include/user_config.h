@@ -1,6 +1,8 @@
 #ifndef _USER_CONFIG_H_
 #define _USER_CONFIG_H_
+
 #include <c_types.h>
+
 #ifdef __WIN32__
 #include <_mingw.h>
 #endif
